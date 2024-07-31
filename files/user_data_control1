@@ -1,0 +1,17 @@
+#cloud-config
+runcmd:
+  - echo "First command executed successfully!" >> /run/testing.txt
+  - [ sh, -c, "echo 'Second command executed successfully!' >> /run/testing.txt" ]
+  - echo 'First command executed successfully!' >> /var/log/testing.txt
+  - [ sh, -c, "echo 'Second command executed successfully!' >> /tmp/testing.txt" ]
+  - |
+    cat <<EOF > /etc/netplan/01-netcfg.yaml
+    network:
+      version: 2
+      ethernets:
+        enp0s17:
+          dhcp4: false
+          addresses:
+            - 192.168.56.10/24
+    EOF
+  - netplan apply
