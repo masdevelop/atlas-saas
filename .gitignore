@@ -1,6 +1,6 @@
 .terraform*
-terraform.state
-terraform*
+terraform.tfstate
+terraform.tfstate.bak
 *.iso
 *.box
 logs.txt
