@@ -1,0 +1,11 @@
+.terraform*
+terraform.state
+terraform*
+*.iso
+*.box
+logs.txt
+*.key
+*.crt
+*.csr
+join.sh
+atlas-admin-kubeconfig
