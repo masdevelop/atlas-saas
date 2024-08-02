@@ -15,6 +15,8 @@ resource "null_resource" "control_deploy" {
     inline = [
       "cd /tmp",
       "chmod +x control.sh",
+      "chmod 600 ../certs/insecure_private_key",
+      "chmod 600 ${var.private_key_path}",
       "./control.sh ${var.api_net_advertise} ${var.pod_network_cidr}",
       "kubeadm token create --print-join-command > /tmp/join.sh",
       "sudo cp /etc/kubernetes/admin.conf /tmp/atlas-cluster-admin-config",

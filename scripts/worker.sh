@@ -4,7 +4,7 @@
 
 set -euxo pipefail
 
-/bin/bash /tmp/join.sh -v
+sudo /bin/bash /tmp/join.sh -v
 
 sudo -i -u vagrant bash << EOF
 whoami
