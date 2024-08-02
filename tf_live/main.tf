@@ -1,3 +1,8 @@
+provider "kubernetes" {
+  config_path    = "../certs/atlas-cluster-admin-config"
+  config_context = "kubernetes-admin@kubernetes"
+}
+
 module "build_isos" {
   source  = "./modules/buildiso"
   curl_box_cmd = var.curl_box_cmd
@@ -45,4 +50,10 @@ module "kubernetes_boot" {
   control_ip = var.control_ip
 
   depends_on    = [module.control_plane_vbox,module.worker_vbox]
+}
+
+module "kubernetes_saas" {
+  source = "./modules/kubernetes_saas"
+
+  depends_on    = [module.kubernetes_boot]
 }
