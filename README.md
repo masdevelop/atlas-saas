@@ -36,6 +36,7 @@ This project demonstrates how to use Terraform and the VirtualBox provider to de
 - **atlas-saas:**
   - **certs:** Future use to distribute CRT.
   - **files:** Cloud-init user_data.
+  - **meta:** Config / Values 
   - **oslib:** ISO / VBox location.
   - **scripts:** Used by Terraform to deploy. Includes a cleanup file for fixes.
   - **tf_live:** IaC location.
@@ -43,9 +44,11 @@ This project demonstrates how to use Terraform and the VirtualBox provider to de
 ### How To
 1. `cd tf_live`
 2. `terraform init`
-3. `terraform plan`
-4. `terraform apply`
-
+3. `terraform plan ../meta/lab1/terraform/config.tfvars`
+4. `terraform apply ../meta/lab1/terraform/config.tfvars`
+5. `cp ../certs/atlas-cluster-admin-config ~/.kube/config` - Kubectx Admin access to newly configured cluster
+6. `kubectx`
+7. `kubectl get nodes`
 
 ### ToDo
 Need to consolidate vars.  Create tfvars file and move all values there.  

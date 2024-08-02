@@ -8,4 +8,4 @@ logs.txt
 *.crt
 *.csr
 join.sh
-atlas-admin-kubeconfig
+atlas-cluster-admin-config

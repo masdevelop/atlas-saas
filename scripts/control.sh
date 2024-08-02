@@ -2,12 +2,16 @@
 #
 # Setup for Control Plane (Master) servers
 set -euxo pipefail
+
+API_NET_IP=$1
+POD_NET_CIDR=$2
+
 NODENAME=$(hostname -s)
 sudo kubeadm config images pull
 echo "Preflight Check Passed: Downloaded All Required Images"
 
 # Deploy kubernetes controlplane and first cluster
-sudo kubeadm init --apiserver-advertise-address=192.168.56.10 --pod-network-cidr=172.16.1.0/16
+sudo kubeadm init --apiserver-advertise-address=$API_NET_IP --pod-network-cidr=$POD_NET_CIDR
 
 # Copy config for cluster access
 mkdir -p "$HOME"/.kube
@@ -37,7 +41,9 @@ EOF
 echo "Installing Metrics Server"
 kubectl apply -f https://raw.githubusercontent.com/techiescamp/kubeadm-scripts/main/manifests/metrics-server.yaml
 
-# Setup lab admin user 
+#######################
+# Setup lab admin user#
+####################### 
 mkdir -p /home/vagrant/user_certs
 cd /home/vagrant/user_certs
 openssl genrsa -out atlas-cluster-admin.key 2048

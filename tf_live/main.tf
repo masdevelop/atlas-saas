@@ -40,6 +40,9 @@ module "kubernetes_boot" {
   worker_nodes  = var.worker_nodes
   private_key_path = var.private_key_path
   remote_user   = var.remote_user
+  api_net_advertise = var.api_net_advertise
+  pod_network_cidr = var.pod_network_cidr
+  control_ip = var.control_ip
 
   depends_on    = [module.control_plane_vbox,module.worker_vbox]
 }

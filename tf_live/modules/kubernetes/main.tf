@@ -1,7 +1,7 @@
 resource "null_resource" "control_deploy" {
   connection {
     type        = "ssh"
-    host        = "192.168.56.10"
+    host        = var.control_ip
     user        = var.remote_user
     private_key = file(var.private_key_path)
   }
@@ -15,13 +15,19 @@ resource "null_resource" "control_deploy" {
     inline = [
       "cd /tmp",
       "chmod +x control.sh",
-      "./control.sh",
-      "kubeadm token create --print-join-command > /tmp/join.sh"
+      "./control.sh ${var.api_net_advertise} ${var.pod_network_cidr}",
+      "kubeadm token create --print-join-command > /tmp/join.sh",
+      "sudo cp /etc/kubernetes/admin.conf /tmp/atlas-cluster-admin-config",
+      "sudo chown vagrant:vagrant /tmp/atlas-cluster-admin-config"
     ]
   }
 
   provisioner "local-exec" {
-    command = "scp -o StrictHostKeyChecking=no -i ${var.private_key_path} ${var.remote_user}@192.168.56.10:/tmp/join.sh ../scripts/join.sh"
+    command = "scp -o StrictHostKeyChecking=no -i ${var.private_key_path} ${var.remote_user}@${var.control_ip}:/tmp/join.sh ../scripts/join.sh"
+  }
+
+  provisioner "local-exec" {
+    command = "scp -o StrictHostKeyChecking=no -i ${var.private_key_path} ${var.remote_user}@${var.control_ip}:/tmp/atlas-cluster-admin-config ../certs/atlas-cluster-admin-config"
   }
 
 }
@@ -37,6 +43,16 @@ resource "null_resource" "worker_deploy" {
   }
 
   provisioner "file" {
+    source      = "../certs/atlas-cluster-admin-config"
+    destination = "/tmp/atlas-cluster-admin-config"
+  }
+
+  provisioner "file" {
+    source      = "../scripts/join.sh"
+    destination = "/tmp/join.sh"
+  }
+  
+  provisioner "file" {
     source      = "../scripts/worker.sh"
     destination = "/tmp/worker.sh"
   }
@@ -50,29 +66,4 @@ resource "null_resource" "worker_deploy" {
   }
 
   depends_on = [null_resource.control_deploy]
-}
-
-resource "null_resource" "worker_join" {
-  for_each = var.worker_nodes
-
-  connection {
-    type        = "ssh"
-    host        = each.value.vm_ip
-    user        = var.remote_user
-    private_key = file(var.private_key_path)
-  }
-
-  provisioner "file" {
-    source      = "../scripts/join.sh"
-    destination = "/tmp/join.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x /tmp/join.sh",
-      "sudo /tmp/join.sh"
-    ]
-  }
-
-  depends_on = [null_resource.worker_deploy]
 }
