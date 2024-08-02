@@ -1,7 +1,9 @@
 # Atlas SaaS Project
 ## Michael Sanchez
+## Just because, for fun
+## Always learning, always having fun
 
-This project demonstrates how to use Terraform and the VirtualBox provider to deploy a Kubernetes cluster running on VirtualBox VMs. It is designed to create a local development environment for learning purposes, using the following tech stack:
+This project demonstrates how to use Terraform and the VirtualBox provider to deploy a Kubernetes cluster running on VirtualBox VMs. It is designed to create a local development environment for learning purposes only, using the following tech stack:
 
 ### Tech Stack
 - **Terraform** for infrastructure as code management.
