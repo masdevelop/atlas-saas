@@ -48,7 +48,7 @@ This project demonstrates how to use Terraform and the VirtualBox provider to de
 2. `terraform init`
 3. `terraform plan ../meta/lab1/terraform/config.tfvars`
 4. `terraform apply ../meta/lab1/terraform/config.tfvars`
-5. `cp ../certs/atlas-cluster-admin-config ~/.kube/config` - Kubectx Admin access to newly configured cluster
+5. `cp ../certs/atlas-cluster-admin-config ~/.kube/config` - Admin cluster kubeconfig
 6. `kubectx`
 7. `kubectl get nodes`
 
