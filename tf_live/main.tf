@@ -1,8 +1,3 @@
-provider "kubernetes" {
-  config_path    = "../certs/atlas-cluster-admin-config"
-  config_context = "kubernetes-admin@kubernetes"
-}
-
 module "build_isos" {
   source  = "./modules/buildiso"
   curl_box_cmd = var.curl_box_cmd
