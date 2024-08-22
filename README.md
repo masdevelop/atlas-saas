@@ -11,7 +11,7 @@ This project demonstrates how to use Terraform and the VirtualBox provider to de
 - **Vagrant** for the underlying virtual disk (vbox).
 - **Cloud-init** used to configure changes at boot.
 
-### Installed Requirements
+### Installed Requirements - tested and true running on ubuntu desktop 24.04
 - `cloud-utils`
 - `curl`
 - `terraform`
